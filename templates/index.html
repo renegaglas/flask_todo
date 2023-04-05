@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FlaskApp</title>
+    <style>
+        .todo {
+            padding: 20px;
+            margin: 10px;
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+    <h1>FlaskTODO</h1>
+    <hr>
+    <div class="content">
+    <form method="post">
+        <p>
+            <b><label for="parent_block">parent block</label></b>
+        </p>
+        <div class="block">
+            <label for="blocks">Choose a block:</label>
+            <select name="block_id" id="block">
+                {% for block in blocks %}
+                  <option value="{{ block['_id'] }}">{{ block['name'] }}</option>
+                {% endfor %}
+            </select>
+            <a href="{{ url_for('create_block') }}"> create a block</a>
+        </div>
+        <p>
+            <b><label for="is_block">Todo Content</label></b>
+        </p>
+        <p>
+            <input type="text" name="content"
+                placeholder="Todo Content"></input>
+        </p>
+
+        <p>
+            <b><label for="degree">Degree</label></b>
+        </p>
+        <p>
+            <input id="degree-0" name="degree" required type="radio" value="Important">
+            <label for="degree-0">Important</label>
+        </p>
+        <p>
+            <input id="degree-1" name="degree" required type="radio" value="Unimportant">
+            <label for="degree-1">Unimportant</label>
+        </p>
+        <button type="submit">Submit</button>
+    </form>
+    </div>
+
+    <div class="content_list">
+        <hr>
+        {% for block in blocks %}
+            <h1>{{ block['name'] }}</h1>
+            <form method="POST" action="{{ url_for('delete_block', id=block['_id']) }}" >
+                <input type="submit" value="Delete block"
+                       onclick="return confirm('Are you sure you want to delete this entry?')">
+            </form>
+            <div>
+            {% for todo in todos %}
+                {% if  todo['block_id']  == block['_id'] %}
+                    <div class="todo">
+                        <p>{{ todo['content'] }} <i>({{ todo['degree']}})</i></p>
+                        <form method="POST" action="{{ url_for('delete', id=todo['_id']) }}" >
+                            <input type="submit" value="Delete Todo"
+                                   onclick="return confirm('Are you sure you want to delete this entry?')">
+                        </form>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+
+
+</body>
+</html>

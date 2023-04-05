@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>new block</title>
+</head>
+<body>
+    <a href="{{ url_for('index') }}">index</a>
+    <hr>
+    <h1>new block</h1>
+    <hr>
+    <form method="post">
+        <p>
+            <b><label for="block_name">block_name</label></b>
+        </p>
+        <p>
+            <input type="text" name="block_name"placeholder="block_name">
+        </p>
+        <button type="submit">Submit</button>
+    </form>
+    <hr>
+    <h2>existing blocks</h2>
+    {% for block in blocks %}
+        <p>{{ block['name'] }}</p>
+    {% endfor %}
+</body>
+</html>
